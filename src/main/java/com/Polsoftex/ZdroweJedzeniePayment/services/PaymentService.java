@@ -2,9 +2,11 @@ package com.Polsoftex.ZdroweJedzeniePayment.services;
 
 import com.Polsoftex.ZdroweJedzeniePayment.model.Card;
 import com.Polsoftex.ZdroweJedzeniePayment.services.exceptions.CardInvalidException;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class PaymentService {
 
     public void performPayment(Card card) {
