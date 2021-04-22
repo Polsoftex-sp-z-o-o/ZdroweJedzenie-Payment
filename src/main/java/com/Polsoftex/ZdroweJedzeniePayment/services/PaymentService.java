@@ -1,6 +1,7 @@
 package com.Polsoftex.ZdroweJedzeniePayment.services;
 
 import com.Polsoftex.ZdroweJedzeniePayment.model.Card;
+import com.Polsoftex.ZdroweJedzeniePayment.model.PaymentDTO;
 import com.Polsoftex.ZdroweJedzeniePayment.services.exceptions.CardInvalidException;
 import org.apache.commons.validator.routines.CreditCardValidator;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,15 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class PaymentService {
 
-    public void performPayment(Card card) {
-        if (validateCardData(card)) {
-            sendPaymentRequest();
+    public void performPayment(PaymentDTO paymentDTO) {
+        if (validateCardData(paymentDTO.getCard())) {
+            sendPaymentRequest(paymentDTO);
         } else {
             throw new CardInvalidException("Card failed validation!");
         }
     }
 
-    private void sendPaymentRequest() {
+    private void sendPaymentRequest(PaymentDTO paymentDTO) {
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
