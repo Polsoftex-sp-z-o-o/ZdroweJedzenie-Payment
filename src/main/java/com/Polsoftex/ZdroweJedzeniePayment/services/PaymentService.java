@@ -2,7 +2,7 @@ package com.Polsoftex.ZdroweJedzeniePayment.services;
 
 import com.Polsoftex.ZdroweJedzeniePayment.model.Card;
 import com.Polsoftex.ZdroweJedzeniePayment.model.PaymentDTO;
-import com.Polsoftex.ZdroweJedzeniePayment.services.exceptions.CardInvalidException;
+import com.Polsoftex.ZdroweJedzeniePayment.paymentProcessors.PaymentProcessor;
 import org.apache.commons.validator.routines.CreditCardValidator;
 import org.springframework.stereotype.Service;
 
@@ -10,25 +10,30 @@ import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class PaymentService {
 
+    private PaymentProcessor paymentProcessor;
+
+    public PaymentService(PaymentProcessor paymentProcessor) {
+        this.paymentProcessor = paymentProcessor;
+    }
+
     public void performPayment(PaymentDTO paymentDTO) {
-        if (validateCardData(paymentDTO.getCard())) {
-            sendPaymentRequest(paymentDTO);
+        if (validatePaymentData(paymentDTO)) {
+            paymentProcessor.processPayment(paymentDTO);
         } else {
-            throw new CardInvalidException("Card failed validation!");
+            throw new PaymentDataInvalidException("Payment data invalid!");
         }
     }
 
-    private void sendPaymentRequest(PaymentDTO paymentDTO) {
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.getMessage();
-        }
+    private boolean validatePaymentData(PaymentDTO paymentDTO) {
+        return validatePaymentValue(paymentDTO.getValue()) && validateCardData(paymentDTO.getCard());
+    }
+
+    private boolean validatePaymentValue(float value) {
+        return value > 0;
     }
 
     private boolean validateCardData(Card card) {
