@@ -18,7 +18,7 @@ spec:
         app: zdrowejedzenie-payment
     spec:
       containers:
-        - image: polsoftex.azurecr.io/zdrowejedzenie-payment:latest
+        - image: polsoftexregistry.azurecr.io/zdrowejedzenie-payment:latest
           name: zdrowejedzenie-payment
           resources: {}
 status: {}
