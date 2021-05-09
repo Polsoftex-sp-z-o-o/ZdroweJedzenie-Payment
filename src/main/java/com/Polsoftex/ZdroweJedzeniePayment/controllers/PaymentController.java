@@ -13,7 +13,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping("payment/{orderId}")
+    @PostMapping("/payment")
     public void performPayment(@RequestBody PaymentDTO paymentDTO) {
         paymentService.performPayment(paymentDTO);
     }
