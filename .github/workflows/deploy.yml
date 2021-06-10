@@ -1,7 +1,7 @@
 name: Deploy
 env:
   APP_NAME: "zdrowejedzenie-payment"
-  CLUSTER_NAME: "polsoftexCluster"
+  CLUSTER_NAME: "polcluster"
   IMAGE_PULL_SECRET: "registry-secret"
   MANIFEST: 'manifests/deployment.yml'
 
